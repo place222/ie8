@@ -1,5 +1,9 @@
-
 import 'babel-polyfill' //导入支持新的方法 只能import导入过下loader
+import axios from 'axios'
+import dd from './lib'
+
+
+console.log(dd);
 
 //通过压缩和转换实现了ie8压缩的问题
 var b = {
@@ -30,9 +34,20 @@ p.hello();
 
 
 //这里测试下es6,7新的方法 是否需要pollyfill 并且验证这个pollyfill是否还需要babel转语法
-var cc = Object.assign({}, {test:'123'});
+var cc = Object.assign({}, {
+    test: '123'
+});
 
 console.log(cc);
+
+console.log($);
+
+$(function () {
+    $('a').click(async () => {
+        var result = await axios.get('/');
+        console.log(result);
+    })
+})
 
 
 //全部搞定！！！！！！！！！

@@ -19,6 +19,10 @@ module.exports = {
         filename: 'js/[name].js',
         path: path.resolve(__dirname, './dist')
     },
+    externals:{
+        jquery:'window.jquery',
+        $:'widnow.$'
+    },
     module: {
         //并没用 只在开发也可以转，但是用es3ifyplugin更好
         // rules: [{
