@@ -1,9 +1,11 @@
 import 'babel-polyfill' //导入支持新的方法 只能import导入过下loader
 import axios from 'axios'
 import dd from './lib'
+// import moment from 'moment'
 
+// console.log(moment().format('YYYY'))
 
-console.log(dd);
+console.log(dd());
 
 //通过压缩和转换实现了ie8压缩的问题
 var b = {

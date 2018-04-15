@@ -1,1 +1,3 @@
-export default a = 1;
+import 'react'
+
+export default 1;

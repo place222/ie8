@@ -12,7 +12,8 @@ module.exports = {
     mode: 'development', //生产
     devtool: 'inline-source-map',
     entry: {
-        main: './src/js/main.js',
+        'split.test':"./src/js/split.test.js"
+        // main: './src/js/main.js',
     },
     output: {
         filename: 'js/[name].js',
@@ -36,20 +37,6 @@ module.exports = {
             exclude: /node_modules/
         }]
     },
-    // optimization: {
-    //     minimizer: [
-    //         //真正生产构建的时候需要设置压缩兼容ie8的
-    //         new UglifyJsPlugin({
-    //             cache: true,
-    //             parallel: true,
-
-    //             uglifyOptions: {
-    //                 ecma: 7,
-    //                 ie8: true
-    //             }
-    //         }),
-    //     ]
-    // },
     plugins: [
         new es3ifyPlugin(), //开发没用压缩工具的话需要这个来兼容ie8
         new webpack.ProgressPlugin(),
@@ -57,6 +44,9 @@ module.exports = {
         new HtmlWebpackPlugin({
             filename: 'index.html',
             template: './src/index.html'
-        })
-    ],
+        }),
+        new webpack.DllReferencePlugin({
+            manifest: require('./dist/dll/manifest.json')
+        }),
+    ]
 }
