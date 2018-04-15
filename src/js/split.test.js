@@ -5,9 +5,27 @@ import 'babel-polyfill'
 
 
 
+// console.log(123);
+
+
+// var a = Object.assign({},{name:'ly'})
+
+// console.log(a.name);
+
+
+import $ from 'jquery'
+import moment from 'moment'
+import axios from 'axios'
+
 console.log(123);
 
+console.log($);
 
-var a = Object.assign({},{name:'ly'})
+console.log(moment().format('YYYY'));
 
-console.log(a.name);
+$(function(){
+    $('a').click(function(){
+        alert('123');
+    })
+    
+})

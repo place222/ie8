@@ -7,7 +7,7 @@ var es3ifyPlugin = require('es3ify-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 var path = require('path')
 
-
+//动态加载会触发自动的模块提取功能 所以我们要注意
 module.exports = {
     mode: 'production', //生产
     // devtool: 'none',//不要映射 使用自定义的压缩在那里面设置了
@@ -15,18 +15,21 @@ module.exports = {
     entry: {
         // main: './src/js/main.js',
         "split.test": './src/js/split.test.js',
-        "split2.test": './src/js/split.test2.js',
-        "split3.test": './src/js/split.test3.js',
-        "split4.test": './src/js/split.test4.js',
-        "split5.test": './src/js/split.test5.js',
+        // "split2.test": './src/js/split.test2.js',
+        // "split3.test": './src/js/split.test3.js',
+        // "split4.test": './src/js/split.test4.js',
+        // "split5.test": './src/js/split.test5.js',
     },
     output: {
         filename: 'js/[name].[chunkhash:8].js',
         path: path.resolve(__dirname, './dist')
     },
+    //让webpack不处理某些依赖的库
     externals: {
-        jquery: 'window.jquery',
-        $: 'widnow.$'
+        //window.jQuery || jQuery 都可以 我们这里就是手动加载的让后放入生成一个exports.jquery = jQuery
+        jquery: 'jQuery',
+        $: '$',
+        moment:'moment'
     },
     module: {
         //并没用 只在开发也可以转，但是用es3ifyplugin更好
@@ -47,17 +50,17 @@ module.exports = {
         // runtimeChunk:{
         //     name:'mainfest'
         // },
-        splitChunks: {
-            chunks: "all",
-            name: true,
-            cacheGroups: {
-                vendors: {
-                    name: 'vendor',
-                    test: /[\\/]node_modules[\\/]/,
-                    priority: -10
-                }
-            }
-        },
+        // splitChunks: {
+        //     chunks: "all",
+        //     name: true,
+            // cacheGroups: {
+            //     vendors: {
+            //         name: 'vendor',
+            //         test: /[\\/]node_modules[\\/]/,
+            //         priority: -10
+            //     }
+            // }
+        //},
         //自定义压缩工具
         minimizer: [
             //真正生产构建的时候需要设置压缩兼容ie8的
@@ -67,12 +70,13 @@ module.exports = {
                 uglifyOptions: {
                     ecma: 7,
                     ie8: true
-                }
+                },
+                sourceMap:true
             }),
         ]
     },
     plugins: [
-        // new webpack.HashedModuleIdsPlugin(),
+        //new webpack.HashedModuleIdsPlugin(),
         // new es3ifyPlugin(),
         new webpack.ProgressPlugin(),
         new CleanWebpackPlugin('./dist/js'),
@@ -82,7 +86,6 @@ module.exports = {
         new HtmlWebpackPlugin({
             filename: 'index.html',
             template: './src/index.html',
-            chunks:['split.test']
         })
     ],
 }
